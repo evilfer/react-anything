@@ -1,0 +1,27 @@
+{
+  "name": "react-anything",
+  "version": "0.1.2",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/helpers/",
+      "/.idea/"
+    ]
+  },
+  "author": "Eloy Villasclaras <eloy.villasclaras@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "jest-cli": "0.10.0"
+  },
+  "dependencies": {
+    "invariant": "^2.2.1",
+    "object-assign": "^4.0.1",
+    "react": "15.0.0-rc.2",
+    "warning": "^2.1.0"
+  }
+}
