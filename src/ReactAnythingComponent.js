@@ -67,7 +67,7 @@ var createImplementation = function (nativeImplementation) {
 
             this._nativeNode = nativeImplementation.mount(this._rootNodeID, this._tag, this.nativeProps(props), nativeParent && nativeParent._nativeNode);
             var childrenImages = this.mountChildren(props.children, transaction, context);
-            if (childrenImages.length > 0) {
+            if (nativeImplementation.childrenMount && childrenImages.length > 0) {
                 nativeImplementation.childrenMount(this._nativeNode, childrenImages);
             }
             return this._nativeNode;

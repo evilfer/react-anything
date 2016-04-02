@@ -6,7 +6,7 @@ on the other hand, manipulates native mobile views. Similarly, `react-anything` 
 facilitate using React to manipulate any other elements.
 In other words, it helps creating React applications where there is no DOM or mobile views.
 
-This library was first developed to support `react-phaser`.
+This library was first developed to support [react-phaser](https://github.com/evilfer/react-phaser).
 
 Most likely `react-anything` will be soon obsolete, since it seems that React
 will eventually implement a complete DOM-free version.

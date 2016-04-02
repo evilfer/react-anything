@@ -165,6 +165,30 @@ describe('ReactAnything native component management', function () {
             render(React.createElement(Root), 'root');
         });
 
+        it('should unmount component on new key', function (done) {
+            var Root = createClass({
+                    getInitialState: {s: 0},
+                    render: function (props, state) {
+                        return React.createElement('parent', {key: state.s});
+                    },
+                    componentDidMount: function () {
+                        this.setState({s: 1}, onUpdate);
+                    }
+                }),
+
+                onUpdate = function () {
+                    expect(hooks.mount.mock.calls.length).toBe(2);
+                    expect(hooks.mount.mock.calls[0]).toEqual([1, 'parent', {}, null]);
+                    expect(hooks.mount.mock.calls[1]).toEqual([2, 'parent', {}, null]);
+                    expect(hooks.unmount.mock.calls.length).toBe(1);
+                    expect(hooks.unmount.mock.calls[0]).toEqual([{id: 1, tag: 'parent', parent: null}]);
+                    expect(hooks.update.mock.calls.length).toBe(0);
+                    done();
+                };
+
+            render(React.createElement(Root), 'root');
+        });
+
         it('should replace component', function (done) {
             var Root = createClass({
                     getInitialState: {s: 0},
