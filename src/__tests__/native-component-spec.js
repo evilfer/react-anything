@@ -53,7 +53,25 @@ describe('ReactAnything native component management', function () {
             expect(hooks.update.mock.calls.length).toBe(0);
         });
 
-        it('should not pass key or children props to native impl', function () {
+        it('should mount array of native components', function () {
+            var Leaf = createClass({
+                render: React.createElement('simple', {}, [
+                    React.createElement('child', {key: 0}),
+                    React.createElement('child', {key: 1})
+                ]),
+                componentDidMount: null
+            });
+
+
+            render(React.createElement(Leaf), 'root');
+            expect(hooks.mount.mock.calls.length).toBe(3);
+            expect(hooks.mount.mock.calls[1]).toEqual([2, 'child', {}, {id: 1, tag: 'simple', parent: null}]);
+            expect(hooks.mount.mock.calls[2]).toEqual([3, 'child', {}, {id: 1, tag: 'simple', parent: null}]);
+            expect(hooks.unmount.mock.calls.length).toBe(0);
+            expect(hooks.update.mock.calls.length).toBe(0);
+        });
+
+        it('should receive children props to native impl', function () {
             var Leaf = createClass({
                 render: false
             });
@@ -61,15 +79,14 @@ describe('ReactAnything native component management', function () {
             var Root = createClass({
                 render: React.createElement('simple', {
                     key: 1,
-                    children: React.createElement(Leaf),
                     a: 'a'
-                })
+                }, React.createElement(Leaf))
             });
 
 
             render(React.createElement(Root), 'root');
             expect(hooks.mount.mock.calls.length).toBe(1);
-            expect(hooks.mount.mock.calls[0]).toEqual([1, 'simple', {a: 'a'}, null]);
+            expect(hooks.mount.mock.calls[0][2].children).toBeDefined();
         });
 
         it('should mount child native component', function () {
@@ -82,7 +99,7 @@ describe('ReactAnything native component management', function () {
 
             render(React.createElement(Root), 'root');
             expect(hooks.mount.mock.calls.length).toBe(2);
-            expect(hooks.mount.mock.calls[0]).toEqual([1, 'parent', {}, null]);
+            expect(hooks.mount.mock.calls[0]).toEqual([1, 'parent', jasmine.any(Object), null]);
             expect(hooks.mount.mock.calls[1]).toEqual([2, 'child', {}, {id: 1, tag: 'parent', parent: null}]);
         });
 
@@ -115,7 +132,7 @@ describe('ReactAnything native component management', function () {
 
             render(React.createElement(Root), 'root');
             expect(hooks.mount.mock.calls.length).toBe(2);
-            expect(hooks.mount.mock.calls[0]).toEqual([1, 'parent', {}, null]);
+            expect(hooks.mount.mock.calls[0]).toEqual([1, 'parent', jasmine.any(Object), null]);
             expect(hooks.mount.mock.calls[1]).toEqual([2, 'child', {}, {id: 1, tag: 'parent', parent: null}]);
         });
     });

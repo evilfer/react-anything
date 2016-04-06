@@ -41,20 +41,6 @@ var createImplementation = function (nativeImplementation) {
     ReactAnythingComponent.displayName = 'ReactAnythingComponent';
 
     ReactAnythingComponent.Mixin = {
-
-        nativeProps: function (props) {
-            var nativeProps = {};
-            var keys = Object.keys(props);
-
-            for (var i = 0; i < keys.length; i++) {
-                var prop = keys[i];
-                if (prop !== 'key' && prop !== 'children') {
-                    nativeProps[prop] = props[prop];
-                }
-            }
-            return nativeProps;
-        },
-
         mountComponent: function (transaction,
                                   nativeParent,
                                   nativeContainerInfo,
@@ -65,7 +51,7 @@ var createImplementation = function (nativeImplementation) {
 
             var props = this._currentElement.props;
 
-            this._nativeNode = nativeImplementation.mount(this._rootNodeID, this._tag, this.nativeProps(props), nativeParent && nativeParent._nativeNode);
+            this._nativeNode = nativeImplementation.mount(this._rootNodeID, this._tag, props, nativeParent && nativeParent._nativeNode);
             var childrenImages = this.mountChildren(props.children, transaction, context);
             if (nativeImplementation.childrenMount && childrenImages.length > 0) {
                 nativeImplementation.childrenMount(this._nativeNode, childrenImages);
@@ -83,7 +69,7 @@ var createImplementation = function (nativeImplementation) {
             var lastProps = prevElement.props;
             var nextProps = this._currentElement.props;
 
-            nativeImplementation.update(this._nativeNode, this.nativeProps(nextProps), this.nativeProps(lastProps));
+            nativeImplementation.update(this._nativeNode, nextProps, lastProps);
 
             this.updateChildren(nextProps.children, transaction, context);
         },
