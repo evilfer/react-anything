@@ -1,6 +1,6 @@
 {
   "name": "react-anything",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Module to create non-DOM implementations of React",
   "repository": {
     "type": "git",
