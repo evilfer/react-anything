@@ -8,7 +8,7 @@
  */
 'use strict';
 
-var React = require('react/lib/React.native');
+var React = require('react/lib/React');
 
 var createReactAnything = require('./ReactAnything');
 var createNativeReactAnything = function (nativeImplementation) {
